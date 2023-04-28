@@ -9,6 +9,7 @@ import { ItemsSchema } from '../model/types/NewListSchema'
 
 import cls from './NewsList.module.scss'
 
+import { dateHandler } from 'shared/lib/dateHandler'
 import { useAppDispatch } from 'shared/lib/useAppDispatch'
 
 export const NewsList = () => {
@@ -48,7 +49,7 @@ export const NewsList = () => {
               <div className={cls.blockInfo}>
                 <div>{news.score}</div>
                 <div>{`by ${news.by}`}</div>
-                <div>{news.time}</div>
+                <div>{dateHandler(news.time)}</div>
                 <div>{news.descendants}</div>
               </div>
             </li>
