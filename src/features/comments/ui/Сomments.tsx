@@ -1,9 +1,11 @@
-import { FC, memo, useEffect } from 'react'
+import { FC, memo, useEffect, useState } from 'react'
 
 import { useSelector } from 'react-redux'
 
 import { getCommentsState } from '../model/selectors/getCommentsState/getCommentsState'
 import { CommentsSchema } from '../model/types/CommentsSchema'
+
+import cls from './Comments.module.scss'
 
 import { getChildComments } from 'features/comments/model/selectors/getChildComments/getChildComments'
 import { getParentId } from 'features/comments/model/selectors/getParrentId/getParrentId'
@@ -21,6 +23,7 @@ export const Comments: FC<CommentsProps> = memo(({ kids }) => {
   const comments = useSelector(getCommentsState)
   const childComments = useSelector(getChildComments)
   const parentId = useSelector(getParentId)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     dispatch(fetchComments(kids))
@@ -38,6 +41,7 @@ export const Comments: FC<CommentsProps> = memo(({ kids }) => {
         const onClickHandler = () => {
           dispatch(setParentID(parent))
           getComments(kids)
+          setOpen(prev => !prev)
         }
 
         return (
@@ -46,7 +50,7 @@ export const Comments: FC<CommentsProps> = memo(({ kids }) => {
             <div>{count}</div>
             {count && <button onClick={onClickHandler}>show more comments {kids.length}</button>}
             {childComments && childComments[parentId] && (
-              <ol>
+              <ol className={open ? cls.isOpen : cls.hide}>
                 {childComments[parentId].map((com: CommentsSchema) => {
                   return (
                     com.parent === id && (
