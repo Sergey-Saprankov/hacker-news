@@ -7,6 +7,7 @@ import { fetchNews } from '../model/services/fetchNews'
 
 import cls from './News.module.scss'
 
+import { Comments } from 'features/comments'
 import { getNewsState } from 'pages/News/model/selectors/getNewsState/getNewsState'
 import { useAppDispatch } from 'shared/lib/useAppDispatch'
 
@@ -24,7 +25,7 @@ export const News = () => {
   console.log(news)
 
   return (
-    <div className={cls.AloneNews}>
+    <div className={cls.News}>
       <button className={cls.btn} onClick={() => navigate(-1)}>
         назад
       </button>
@@ -33,7 +34,7 @@ export const News = () => {
       <div>{news.time}</div>
       <div>{news.by}</div>
       <div>{news.descendants}</div>
-      {/*<Comments kids={news.kids} />*/}
+      <Comments kids={news.kids} />
     </div>
   )
 }

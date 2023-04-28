@@ -4,7 +4,7 @@ import { fetchComments } from '../services/fetchComments'
 import { CommentsListSchema } from '../types/CommentsSchema'
 
 const initialState: CommentsListSchema = {
-  comment: [],
+  comments: [],
   status: false,
   error: null,
 }
@@ -21,7 +21,7 @@ const commentsSlice = createSlice({
       })
       .addCase(fetchComments.fulfilled, (state, action) => {
         state.status = false
-        state.comment = action.payload
+        state.comments = action.payload
       })
       .addCase(fetchComments.rejected, (state, action) => {
         state.status = false
