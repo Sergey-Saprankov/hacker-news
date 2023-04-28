@@ -16,7 +16,7 @@ export const fetchComments = createAsyncThunk<CommentsSchema[], number[], { reje
 
       return responses.map(response => response.data)
     } catch (e) {
-      return thunkAPI.rejectWithValue('error')
+      return thunkAPI.rejectWithValue('some error')
     }
   }
 )

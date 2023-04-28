@@ -46,7 +46,7 @@ export const NewsList = () => {
         <ol>
           {newsList.map((news: ItemsSchema, i: number) => (
             <li onClick={() => navigate(`news/${news.id}`)} value={i + 1} key={news.id}>
-              <span className={cls.title}>{news.title}</span>
+              <span className={cls.title ? cls.title : ''}>{news.title}</span>
               <div className={cls.blockInfo}>
                 <div>{news.score}</div>
                 <div>{`by ${news.by}`}</div>
