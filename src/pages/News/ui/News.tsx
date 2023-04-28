@@ -22,8 +22,6 @@ export const News = () => {
     dispatch(fetchNews({ newsId: id }))
   }, [id, dispatch])
 
-  console.log(news)
-
   return (
     <div className={cls.News}>
       <button className={cls.btn} onClick={() => navigate(-1)}>

@@ -11,6 +11,7 @@ import cls from './NewsList.module.scss'
 
 import { dateHandler } from 'shared/lib/dateHandler'
 import { useAppDispatch } from 'shared/lib/useAppDispatch'
+import { Loader } from 'shared/ui/Loader/Loader'
 
 export const NewsList = () => {
   const navigate = useNavigate()
@@ -33,7 +34,7 @@ export const NewsList = () => {
   }, [dispatch, newsList, update])
 
   if (!newsList.length) {
-    return <div>loading</div>
+    return <Loader />
   }
 
   return (
