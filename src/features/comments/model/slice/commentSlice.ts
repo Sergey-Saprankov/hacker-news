@@ -1,21 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { fetchComments } from '../services/fetchComments'
-import { CommentsListSchema } from '../types/CommentsSchema'
+import { CommentsListSchema, CommentsSchema } from '../types/CommentsSchema'
 
 import { fetchChildComments } from 'features/comments/model/services/fetchChildComments'
 
 const initialState: CommentsListSchema = {
   comments: [],
-  childComments: [],
+  childComments: {},
   status: false,
   error: null,
+  parentId: 0,
 }
 
 const commentsSlice = createSlice({
   name: 'news',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    setParentID: (state, action) => {
+      state.parentId = action.payload
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchComments.pending, state => {
@@ -36,7 +41,7 @@ const commentsSlice = createSlice({
       })
       .addCase(fetchChildComments.fulfilled, (state, action) => {
         state.status = false
-        state.childComments = action.payload
+        state.childComments[state.parentId] = action.payload
       })
       .addCase(fetchChildComments.rejected, (state, action) => {
         state.status = false
@@ -46,3 +51,4 @@ const commentsSlice = createSlice({
 })
 
 export const { reducer: commentsReducer } = commentsSlice
+export const { setParentID } = commentsSlice.actions

@@ -8,9 +8,14 @@ export interface CommentsSchema {
   kids: number[]
 }
 
+export interface ChildCommentsSchema {
+  [key: number]: CommentsSchema[]
+}
+
 export interface CommentsListSchema {
   comments: CommentsSchema[]
-  childComments: CommentsSchema[]
+  childComments: ChildCommentsSchema
   status: boolean
   error: null | string
+  parentId: number
 }

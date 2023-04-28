@@ -6,8 +6,10 @@ import { getCommentsState } from '../model/selectors/getCommentsState/getComment
 import { CommentsSchema } from '../model/types/CommentsSchema'
 
 import { getChildComments } from 'features/comments/model/selectors/getChildComments/getChildComments'
+import { getParentId } from 'features/comments/model/selectors/getParrentId/getParrentId'
 import { fetchChildComments } from 'features/comments/model/services/fetchChildComments'
 import { fetchComments } from 'features/comments/model/services/fetchComments'
+import { setParentID } from 'features/comments/model/slice/commentSlice'
 import { createMarkup } from 'shared/lib/createMarkup'
 import { useAppDispatch } from 'shared/lib/useAppDispatch'
 
@@ -18,6 +20,7 @@ export const Comments: FC<CommentsProps> = memo(({ kids }) => {
   const dispatch = useAppDispatch()
   const comments = useSelector(getCommentsState)
   const childComments = useSelector(getChildComments)
+  const parentId = useSelector(getParentId)
 
   useEffect(() => {
     dispatch(fetchComments(kids))
@@ -30,17 +33,21 @@ export const Comments: FC<CommentsProps> = memo(({ kids }) => {
   return (
     <ul>
       Comments
-      {comments.map(({ text, id, kids }: CommentsSchema) => {
+      {comments.map(({ text, id, kids, parent }: CommentsSchema) => {
         const count = kids ? kids.length : 0
+        const onClickHandler = () => {
+          dispatch(setParentID(parent))
+          getComments(kids)
+        }
 
         return (
           <li key={id}>
             <div dangerouslySetInnerHTML={createMarkup(text)} />
             <div>{count}</div>
-            {count && <button onClick={() => getComments(kids)}>show more comments</button>}
-            {childComments && (
+            {count && <button onClick={onClickHandler}>show more comments {kids.length}</button>}
+            {childComments && childComments[parentId] && (
               <ol>
-                {childComments.map((com: CommentsSchema) => {
+                {childComments[parentId].map((com: CommentsSchema) => {
                   return (
                     com.parent === id && (
                       <li key={com.id}>
