@@ -10,6 +10,7 @@ export interface CommentsSchema {
 
 export interface CommentsListSchema {
   comments: CommentsSchema[]
+  childComments: CommentsSchema[]
   status: boolean
   error: null | string
 }
