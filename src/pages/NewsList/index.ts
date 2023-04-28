@@ -1,0 +1,7 @@
+export { NewsList } from './ui/NewsList'
+export * from './model/types/NewListSchema'
+export * from './model/services/fetchNewsList'
+export * from './model/slice/newsListSlice'
+export { getNewsListState } from './model/selectors/getNewsListState/getNewsListState'
+export { getNewsLIstStatus } from './model/selectors/getNewsLIstStatus/getNewsLIstStatus'
+export { getNewsListError } from './model/selectors/getNewsListError/getNewsListError'
