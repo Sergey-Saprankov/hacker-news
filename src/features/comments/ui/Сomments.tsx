@@ -40,11 +40,13 @@ export const Comments: FC<CommentsProps> = memo(({ kids }) => {
             {count && <button onClick={() => getComments(kids)}>show more comments</button>}
             {childComments && (
               <ol>
-                {childComments.map(({ id, text, kids }: CommentsSchema) => {
+                {childComments.map((com: CommentsSchema) => {
                   return (
-                    <li key={id}>
-                      <div dangerouslySetInnerHTML={createMarkup(text)} />
-                    </li>
+                    com.parent === id && (
+                      <li key={com.id}>
+                        <div dangerouslySetInnerHTML={createMarkup(com.text)} />
+                      </li>
+                    )
                   )
                 })}
               </ol>
