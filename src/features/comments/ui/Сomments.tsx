@@ -11,7 +11,7 @@ import { getChildComments } from 'features/comments/model/selectors/getChildComm
 import { getParentId } from 'features/comments/model/selectors/getParrentId/getParrentId'
 import { fetchChildComments } from 'features/comments/model/services/fetchChildComments'
 import { fetchComments } from 'features/comments/model/services/fetchComments'
-import { setParentID } from 'features/comments/model/slice/commentSlice'
+import { setIsOpen, setParentID } from 'features/comments/model/slice/commentSlice'
 import { createMarkup } from 'shared/lib/createMarkup'
 import { useAppDispatch } from 'shared/lib/useAppDispatch'
 
@@ -23,7 +23,6 @@ export const Comments: FC<CommentsProps> = memo(({ kids }) => {
   const comments = useSelector(getCommentsState)
   const childComments = useSelector(getChildComments)
   const parentId = useSelector(getParentId)
-  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     dispatch(fetchComments(kids))
@@ -36,21 +35,26 @@ export const Comments: FC<CommentsProps> = memo(({ kids }) => {
   return (
     <ul>
       Comments
-      {comments.map(({ text, id, kids, parent }: CommentsSchema) => {
+      {comments.map(({ text, id, kids, parent, isOpen }: CommentsSchema) => {
         const count = kids ? kids.length : 0
         const onClickHandler = () => {
           dispatch(setParentID(parent))
           getComments(kids)
-          setOpen(prev => !prev)
+          dispatch(setIsOpen({ commentId: id }))
         }
 
         return (
           <li key={id}>
             <div dangerouslySetInnerHTML={createMarkup(text)} />
             <div>{count}</div>
-            {count && <button onClick={onClickHandler}>show more comments {kids.length}</button>}
+            {count && !isOpen && (
+              <button onClick={onClickHandler}>show more comments {kids.length}</button>
+            )}
+            {count && isOpen && (
+              <button onClick={() => dispatch(setIsOpen({ commentId: id }))}>hide comment</button>
+            )}
             {childComments && childComments[parentId] && (
-              <ol className={open ? cls.isOpen : cls.hide}>
+              <ol className={isOpen ? cls.isOpen : cls.hide}>
                 {childComments[parentId].map((com: CommentsSchema) => {
                   return (
                     com.parent === id && (

@@ -6,6 +6,7 @@ export interface CommentsSchema {
   text: string
   type: string
   kids: number[]
+  isOpen: boolean
 }
 
 export interface ChildCommentsSchema {

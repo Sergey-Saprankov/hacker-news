@@ -20,6 +20,11 @@ const commentsSlice = createSlice({
     setParentID: (state, action) => {
       state.parentId = action.payload
     },
+    setIsOpen: (state, action: PayloadAction<{ commentId: number }>) => {
+      state.comments = state.comments.map(el =>
+        el.id === action.payload.commentId ? { ...el, isOpen: !el.isOpen } : el
+      )
+    },
   },
   extraReducers: builder => {
     builder
@@ -29,7 +34,8 @@ const commentsSlice = createSlice({
       })
       .addCase(fetchComments.fulfilled, (state, action) => {
         state.status = false
-        state.comments = action.payload
+
+        state.comments = action.payload.map(el => ({ ...el, isOpen: false }))
       })
       .addCase(fetchComments.rejected, (state, action) => {
         state.status = false
@@ -51,4 +57,4 @@ const commentsSlice = createSlice({
 })
 
 export const { reducer: commentsReducer } = commentsSlice
-export const { setParentID } = commentsSlice.actions
+export const { setParentID, setIsOpen } = commentsSlice.actions
