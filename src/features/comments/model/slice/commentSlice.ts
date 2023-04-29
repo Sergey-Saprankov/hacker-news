@@ -44,7 +44,6 @@ const commentsSlice = createSlice({
       })
       .addCase(fetchChildComments.fulfilled, (state, action) => {
         state.status = false
-        debugger
         state.parentId = action.payload[0].parent
         state.childComments[state.parentId] = action.payload
       })
