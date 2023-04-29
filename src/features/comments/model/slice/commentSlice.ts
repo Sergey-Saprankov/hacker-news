@@ -17,9 +17,6 @@ const commentsSlice = createSlice({
   name: 'comments',
   initialState: initialState,
   reducers: {
-    setParentID: (state, action: PayloadAction<number>) => {
-      state.parentId = action.payload
-    },
     setIsOpen: (state, action: PayloadAction<{ commentId: number }>) => {
       state.comments = state.comments.map(el =>
         el.id === action.payload.commentId ? { ...el, isOpen: !el.isOpen } : el
@@ -59,4 +56,4 @@ const commentsSlice = createSlice({
 })
 
 export const { reducer: commentsReducer } = commentsSlice
-export const { setParentID, setIsOpen } = commentsSlice.actions
+export const { setIsOpen } = commentsSlice.actions

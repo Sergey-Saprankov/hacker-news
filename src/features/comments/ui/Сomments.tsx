@@ -11,7 +11,7 @@ import { getChildComments } from 'features/comments/model/selectors/getChildComm
 import { getParentId } from 'features/comments/model/selectors/getParrentId/getParrentId'
 import { fetchChildComments } from 'features/comments/model/services/fetchChildComments'
 import { fetchComments } from 'features/comments/model/services/fetchComments'
-import { setIsOpen, setParentID } from 'features/comments/model/slice/commentSlice'
+import { setIsOpen } from 'features/comments/model/slice/commentSlice'
 import { createMarkup } from 'shared/lib/createMarkup'
 import { useAppDispatch } from 'shared/lib/useAppDispatch'
 
