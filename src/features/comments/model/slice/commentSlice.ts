@@ -14,10 +14,10 @@ const initialState: CommentsListSchema = {
 }
 
 const commentsSlice = createSlice({
-  name: 'news',
+  name: 'comments',
   initialState: initialState,
   reducers: {
-    setParentID: (state, action) => {
+    setParentID: (state, action: PayloadAction<number>) => {
       state.parentId = action.payload
     },
     setIsOpen: (state, action: PayloadAction<{ commentId: number }>) => {
@@ -47,6 +47,8 @@ const commentsSlice = createSlice({
       })
       .addCase(fetchChildComments.fulfilled, (state, action) => {
         state.status = false
+        debugger
+        state.parentId = action.payload[0].parent
         state.childComments[state.parentId] = action.payload
       })
       .addCase(fetchChildComments.rejected, (state, action) => {

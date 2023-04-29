@@ -38,7 +38,7 @@ export const Comments: FC<CommentsProps> = memo(({ kids }) => {
       {comments.map(({ text, id, kids, parent, isOpen }: CommentsSchema) => {
         const count = kids ? kids.length : 0
         const onClickHandler = () => {
-          dispatch(setParentID(parent))
+          console.log(parent)
           getComments(kids)
           dispatch(setIsOpen({ commentId: id }))
         }
@@ -54,15 +54,9 @@ export const Comments: FC<CommentsProps> = memo(({ kids }) => {
               <button onClick={() => dispatch(setIsOpen({ commentId: id }))}>hide comment</button>
             )}
             {childComments && childComments[parentId] && (
-              <ol className={isOpen ? cls.isOpen : cls.hide}>
+              <ol>
                 {childComments[parentId].map((com: CommentsSchema) => {
-                  return (
-                    com.parent === id && (
-                      <li key={com.id}>
-                        <div dangerouslySetInnerHTML={createMarkup(com.text)} />
-                      </li>
-                    )
-                  )
+                  return com.parent === id && isOpen && <Comment id={com.id} text={com.text} />
                 })}
               </ol>
             )}
@@ -70,5 +64,17 @@ export const Comments: FC<CommentsProps> = memo(({ kids }) => {
         )
       })}
     </ul>
+  )
+})
+
+interface CommentProps {
+  text: string
+  id: number
+}
+export const Comment: FC<CommentProps> = memo(({ text, id }) => {
+  return (
+    <li key={id}>
+      <div dangerouslySetInnerHTML={createMarkup(text)} />
+    </li>
   )
 })
